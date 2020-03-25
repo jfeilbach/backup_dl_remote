@@ -11,6 +11,19 @@ LIGHT_BLUE='\e[1;34m'
 CYAN='\e[0;36m'
 RED='\e[0;31m'
 
+displaytime () {
+   local T=$SECONDS
+   local D=$((T/60/60/24))
+   local H=$((T/60/60%24))
+   local M=$((T/60%60))
+   local S=$((T%60))
+   [[ $D > 0 ]] && printf '%d days ' $D
+   [[ $H > 0 ]] && printf '%d hours ' $H
+   [[ $M > 0 ]] && printf '%d minutes ' $M
+   [[ $D > 0 || $H > 0 || $M > 0 ]] && printf 'and '
+   printf '%d seconds\n' $S
+}
+
 echo "Checking for root privelages..."
 [ "$(whoami)" != "root" ] && exec sudo -- "$0" "$@"
 
@@ -61,5 +74,8 @@ rsync -avhz --stats --progress \
 --exclude='.HFS+ Private Directory Data\#015' \
 --exclude='.PKInstallSandboxManager-SystemSoftware' \
 /Volumes/Raid\ 0/Torrent\ Downloads/ /Volumes/vol2/tinkey_torrents/
+
+echo ""
+echo "Took $(displaytime) to complete ${0}."
 
 exit 0
