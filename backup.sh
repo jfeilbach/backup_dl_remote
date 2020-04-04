@@ -78,6 +78,7 @@ local_mnt2="${local_path}/${dir2}"
 check_mount ${local_mnt2}
 
 echo -e "${YELLOW}Starting backup...${NC}"
+pause 1
 
 rsync -avhz --stats --progress \
 --exclude='$RECYCLE.BIN' \
